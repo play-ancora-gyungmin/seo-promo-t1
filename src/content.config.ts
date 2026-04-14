@@ -90,19 +90,6 @@ const teachers = defineCollection({
   })
 });
 
-const posts = defineCollection({
-  loader: glob({
-    base: './src/content/posts',
-    pattern: '**/*.md'
-  }),
-  schema: z.object({
-    title: z.string(),
-    excerpt: z.string(),
-    publishedAt: z.coerce.date()
-  })
-});
-
 export const collections = {
-  teachers,
-  posts
+  teachers
 };
