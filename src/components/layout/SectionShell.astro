@@ -28,11 +28,12 @@ const {
   <div
     class:list={[
       'landing-section__surface',
-      !noSurface && 'section-shell',
       noSurface && 'landing-section__surface--bare',
       surfaceClass
     ]}
   >
-    <slot />
+    <div class:list={['landing-section__shell', !noSurface && 'section-shell']}>
+      <slot />
+    </div>
   </div>
 </section>
