@@ -68,8 +68,10 @@
         return;
       }
 
-      target.scrollIntoView({
-        block: 'start',
+      const targetTop = window.scrollY + target.getBoundingClientRect().top - getHeaderOffset();
+
+      window.scrollTo({
+        top: Math.max(0, targetTop),
         behavior: reducedMotionMedia.matches ? 'auto' : 'smooth'
       });
     };
@@ -97,7 +99,7 @@
         },
         {
           threshold: [0.2, 0.35, 0.5, 0.7, 0.85],
-          rootMargin: `${-1 * (getHeaderOffset() + 12)}px 0px -18% 0px`
+          rootMargin: `${-1 * getHeaderOffset()}px 0px -18% 0px`
         }
       );
 

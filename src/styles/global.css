@@ -171,7 +171,7 @@ select {
 
 @media (min-width: 720px) {
   html {
-    scroll-padding-top: calc(var(--header-height) + 12px);
+    scroll-padding-top: var(--header-height);
   }
 
   body.landing-body {
@@ -180,7 +180,7 @@ select {
 
   [data-slide-section] {
     scroll-snap-align: start;
-    scroll-margin-top: calc(var(--header-height) + 12px);
+    scroll-margin-top: var(--header-height);
   }
 
   [data-slide-section][data-is-active="false"] .landing-section__surface {
