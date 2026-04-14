@@ -27,10 +27,7 @@
     const ratios = new Map<HTMLElement, number>();
     let observer: IntersectionObserver | null = null;
 
-    const getHeaderOffset = () => {
-      const header = document.querySelector<HTMLElement>('.site-header');
-      return Math.round(header?.getBoundingClientRect().height ?? 0);
-    };
+    const getSnapOffset = () => 0;
 
     const setActiveSection = (nextActive: HTMLElement) => {
       sections.forEach((section) => {
@@ -45,14 +42,12 @@
         return activeIndex;
       }
 
-      const headerOffset = getHeaderOffset();
+      const snapOffset = getSnapOffset();
 
       return sections.reduce(
         (closestIndex, section, index) => {
-          const currentDistance = Math.abs(section.getBoundingClientRect().top - headerOffset);
-          const bestDistance = Math.abs(
-            sections[closestIndex].getBoundingClientRect().top - headerOffset
-          );
+          const currentDistance = Math.abs(section.getBoundingClientRect().top - snapOffset);
+          const bestDistance = Math.abs(sections[closestIndex].getBoundingClientRect().top - snapOffset);
 
           return currentDistance < bestDistance ? index : closestIndex;
         },
@@ -68,7 +63,7 @@
         return;
       }
 
-      const targetTop = window.scrollY + target.getBoundingClientRect().top - getHeaderOffset();
+      const targetTop = window.scrollY + target.getBoundingClientRect().top - getSnapOffset();
 
       window.scrollTo({
         top: Math.max(0, targetTop),
@@ -99,7 +94,7 @@
         },
         {
           threshold: [0.2, 0.35, 0.5, 0.7, 0.85],
-          rootMargin: `${-1 * getHeaderOffset()}px 0px -18% 0px`
+          rootMargin: '0px 0px -18% 0px'
         }
       );
 

@@ -11,9 +11,11 @@ const { brand } = Astro.props;
 
 <header class="site-header">
   <Container class="site-header__inner">
-    <a class="site-brand" href="#hero">
-      <strong>{brand.brandName}</strong>
-      <span>{brand.teacherName} {brand.subject}</span>
-    </a>
+    <div class="site-header__bar">
+      <a class="site-brand" href="#hero" aria-label={`${brand.brandName} 상단으로 이동`}>
+        <strong>{brand.brandName}</strong>
+        <span>{brand.teacherName} {brand.subject}</span>
+      </a>
+    </div>
   </Container>
 </header>
