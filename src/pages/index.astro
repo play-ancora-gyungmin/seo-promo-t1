@@ -3,77 +3,23 @@ import Container from '../components/layout/Container.astro';
 import LandingLayout from '../components/layout/LandingLayout.astro';
 import SectionShell from '../components/layout/SectionShell.astro';
 import { getLandingEntry } from '../lib/landing/getLandingEntry';
-import { resolveSectionOrder } from '../lib/landing/resolveSectionOrder';
+import { getLandingSkeletonSections } from '../lib/landing/getLandingSkeletonSections';
 
 const entry = await getLandingEntry('seo-haneul-english');
-const sectionOrder = resolveSectionOrder(
+const sections = getLandingSkeletonSections(
   entry.data.enabledSections,
   entry.data.sectionOrder
 );
 ---
 
 <LandingLayout landing={entry.data}>
-  <Container class="page-spacer stack">
-    <SectionShell
-      eyebrow="Setup"
-      title="서하늘 영어 프로젝트 초기 세팅이 준비되었습니다."
-    >
-      <div class="stack">
-        <p>
-          현재 페이지는 실제 랜딩 구현을 시작하기 전 단계입니다. 이번 턴에서는
-          Astro, Svelte, Panda CSS, 콘텐츠 스키마, 기본 라우트와 레이아웃 뼈대만
-          연결했습니다.
-        </p>
-        <ul class="meta-list">
-          <li>
-            <strong>데이터 엔트리</strong>
-            <span>`src/content/teachers/seo-haneul-english.json` 기준으로 연결됩니다.</span>
-          </li>
-          <li>
-            <strong>Preview 엔트리</strong>
-            <span>`/preview/sample-math` 에서 다른 과목 샘플을 확인할 수 있습니다.</span>
-          </li>
-          <li>
-            <strong>다음 단계</strong>
-            <span>섹션 구현, UI recipe 실제 적용, 이미지/SEO 고도화가 이어질 예정입니다.</span>
-          </li>
-        </ul>
-      </div>
-    </SectionShell>
-
-    <SectionShell eyebrow="Schema" title="활성 섹션 순서 미리보기">
-      <ul class="pill-list">
-        {sectionOrder.map((section) => (
-          <li class="pill">{section}</li>
-        ))}
-      </ul>
-    </SectionShell>
-
-    <div class="grid-cards grid-cards--two">
-      <SectionShell eyebrow="Content" title="브랜드 데이터 연결 확인">
-        <div class="stack">
-          <div class="surface-card">
-            <strong>{entry.data.brand.brandName}</strong>
-            <p>{entry.data.brand.tagline}</p>
-          </div>
-          <div class="surface-card">
-            <strong>Hero Headline</strong>
-            <p>{entry.data.hero.headline}</p>
-          </div>
-        </div>
-      </SectionShell>
-
-      <SectionShell eyebrow="Posts" title="향후 확장 라우트 준비">
-        <div class="stack">
-          <p>
-            posts 인덱스와 slug 페이지를 함께 만들어 두어, 추후 공지나 칼럼
-            콘텐츠를 붙일 수 있는 최소 골격을 확보했습니다.
-          </p>
-          <p>
-            <a href="/posts">`/posts` placeholder 보기</a>
-          </p>
-        </div>
-      </SectionShell>
-    </div>
+  <Container class="page-spacer page-sections">
+    {sections.map((section) => (
+      <SectionShell
+        id={section.id}
+        eyebrow={section.label}
+        class="section-shell--placeholder"
+      />
+    ))}
   </Container>
 </LandingLayout>

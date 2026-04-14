@@ -1,25 +1,18 @@
 ---
 import { buildSeoMeta } from '../../lib/landing/buildSeoMeta';
 import type { LandingData } from '../../types/landing';
-import PreviewBanner from '../sections/PreviewBanner.astro';
 import BaseLayout from './BaseLayout.astro';
-import SiteFooter from './SiteFooter.astro';
-import SiteHeader from './SiteHeader.astro';
 
 export interface Props {
   landing: LandingData;
-  previewLabel?: string;
 }
 
-const { landing, previewLabel } = Astro.props;
+const { landing } = Astro.props;
 const seo = buildSeoMeta(landing);
 ---
 
 <BaseLayout title={seo.title} description={seo.description} ogImage={seo.ogImage}>
-  {previewLabel && <PreviewBanner label={previewLabel} />}
-  <SiteHeader brand={landing.brand} />
   <main class="site-main">
     <slot />
   </main>
-  <SiteFooter brandName={landing.brand.brandName} />
 </BaseLayout>

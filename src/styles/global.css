@@ -105,15 +105,15 @@ img {
 }
 
 .section-shell {
-  border: 1px solid rgba(54, 93, 150, 0.12);
-  border-radius: 28px;
-  background: rgba(255, 255, 255, 0.88);
-  box-shadow: 0 20px 40px rgba(29, 36, 51, 0.05);
-  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border: 1px dashed rgba(54, 93, 150, 0.28);
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  padding: 0;
 }
 
 .section-shell + .section-shell {
-  margin-top: 1rem;
+  margin-top: 0;
 }
 
 .section-shell__eyebrow {
@@ -137,6 +137,31 @@ img {
 
 .section-shell__body {
   margin-top: 1rem;
+}
+
+.section-shell--placeholder {
+  min-height: 220px;
+}
+
+.section-shell--placeholder .section-shell__eyebrow {
+  display: block;
+  min-height: auto;
+  padding: 0.375rem 0.5rem;
+  border-radius: 0;
+  background: transparent;
+  color: #545d6f;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.section-shell--placeholder .section-shell__body {
+  margin-top: 0;
+  min-height: 140px;
+}
+
+.page-sections {
+  display: grid;
+  gap: 0;
 }
 
 .surface-card {

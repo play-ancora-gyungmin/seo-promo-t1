@@ -3,39 +3,23 @@ import Container from '../../components/layout/Container.astro';
 import LandingLayout from '../../components/layout/LandingLayout.astro';
 import SectionShell from '../../components/layout/SectionShell.astro';
 import { getLandingEntry } from '../../lib/landing/getLandingEntry';
-import { resolveSectionOrder } from '../../lib/landing/resolveSectionOrder';
+import { getLandingSkeletonSections } from '../../lib/landing/getLandingSkeletonSections';
 
 const entry = await getLandingEntry('sample-math-teacher');
-const sectionOrder = resolveSectionOrder(
+const sections = getLandingSkeletonSections(
   entry.data.enabledSections,
   entry.data.sectionOrder
 );
 ---
 
-<LandingLayout
-  landing={entry.data}
-  previewLabel="Template Preview: sample-math data"
->
-  <Container class="page-spacer stack">
-    <SectionShell eyebrow="Preview" title="다른 강사 데이터용 샘플 페이지">
-      <div class="stack">
-        <p>
-          이 페이지는 같은 구조에 수학 샘플 데이터를 넣었을 때도 기본 라우팅과
-          스키마가 유지되는지 검증하기 위한 placeholder 입니다.
-        </p>
-        <div class="surface-card">
-          <strong>{entry.data.brand.brandName}</strong>
-          <p>{entry.data.hero.subheadline}</p>
-        </div>
-      </div>
-    </SectionShell>
-
-    <SectionShell eyebrow="Order" title="샘플 데이터 섹션 순서">
-      <ul class="pill-list">
-        {sectionOrder.map((section) => (
-          <li class="pill">{section}</li>
-        ))}
-      </ul>
-    </SectionShell>
+<LandingLayout landing={entry.data}>
+  <Container class="page-spacer page-sections">
+    {sections.map((section) => (
+      <SectionShell
+        id={section.id}
+        eyebrow={section.label}
+        class="section-shell--placeholder"
+      />
+    ))}
   </Container>
 </LandingLayout>
