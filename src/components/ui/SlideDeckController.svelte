@@ -24,30 +24,12 @@
 
     const desktopMedia = window.matchMedia(`(min-width: ${mobileBreakpoint}px)`);
     const reducedMotionMedia = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const ratios = new Map<HTMLElement, number>();
-    let observer: IntersectionObserver | null = null;
-
-    const getSnapOffset = () => 0;
-
-    const setActiveSection = (nextActive: HTMLElement) => {
-      sections.forEach((section) => {
-        section.dataset.isActive = section === nextActive ? 'true' : 'false';
-      });
-    };
 
     const getCurrentIndex = () => {
-      const activeIndex = sections.findIndex((section) => section.dataset.isActive === 'true');
-
-      if (activeIndex >= 0) {
-        return activeIndex;
-      }
-
-      const snapOffset = getSnapOffset();
-
       return sections.reduce(
         (closestIndex, section, index) => {
-          const currentDistance = Math.abs(section.getBoundingClientRect().top - snapOffset);
-          const bestDistance = Math.abs(sections[closestIndex].getBoundingClientRect().top - snapOffset);
+          const currentDistance = Math.abs(section.getBoundingClientRect().top);
+          const bestDistance = Math.abs(sections[closestIndex].getBoundingClientRect().top);
 
           return currentDistance < bestDistance ? index : closestIndex;
         },
@@ -63,44 +45,11 @@
         return;
       }
 
-      const targetTop = window.scrollY + target.getBoundingClientRect().top - getSnapOffset();
+      const targetTop = window.scrollY + target.getBoundingClientRect().top;
 
       window.scrollTo({
         top: Math.max(0, targetTop),
         behavior: reducedMotionMedia.matches ? 'auto' : 'smooth'
-      });
-    };
-
-    const rebuildObserver = () => {
-      observer?.disconnect();
-      ratios.clear();
-
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            ratios.set(entry.target as HTMLElement, entry.isIntersecting ? entry.intersectionRatio : 0);
-          });
-
-          const nextActive =
-            sections.reduce<HTMLElement | null>((best, section) => {
-              if (!best) {
-                return section;
-              }
-
-              return (ratios.get(section) ?? 0) > (ratios.get(best) ?? 0) ? section : best;
-            }, null) ?? sections[0];
-
-          setActiveSection(nextActive);
-        },
-        {
-          threshold: [0.2, 0.35, 0.5, 0.7, 0.85],
-          rootMargin: '0px 0px -18% 0px'
-        }
-      );
-
-      sections.forEach((section) => {
-        ratios.set(section, 0);
-        observer?.observe(section);
       });
     };
 
@@ -117,46 +66,22 @@
         return;
       }
 
-      const currentIndex = getCurrentIndex();
-      let nextIndex = currentIndex;
-
       switch (event.key) {
         case ' ':
         case 'Spacebar':
-          nextIndex = currentIndex + (event.shiftKey ? -1 : 1);
-          break;
-        case 'ArrowDown':
-        case 'PageDown':
-          nextIndex = currentIndex + 1;
-          break;
-        case 'ArrowUp':
-        case 'PageUp':
-          nextIndex = currentIndex - 1;
-          break;
-        case 'Home':
-          nextIndex = 0;
-          break;
-        case 'End':
-          nextIndex = sections.length - 1;
           break;
         default:
           return;
       }
 
       event.preventDefault();
-      scrollToIndex(nextIndex);
+      scrollToIndex(getCurrentIndex() + (event.shiftKey ? -1 : 1));
     };
 
-    setActiveSection(sections[0]);
-    rebuildObserver();
-
     window.addEventListener('keydown', handleKeydown);
-    window.addEventListener('resize', rebuildObserver);
 
     return () => {
-      observer?.disconnect();
       window.removeEventListener('keydown', handleKeydown);
-      window.removeEventListener('resize', rebuildObserver);
     };
   });
 </script>
