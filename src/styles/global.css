@@ -768,6 +768,12 @@ select {
   }
 }
 
+@media (max-width: 420px) {
+  .hero-section__headline-emphasis {
+    font-size: 1.188em;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
