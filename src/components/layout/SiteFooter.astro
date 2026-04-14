@@ -1,0 +1,18 @@
+---
+export interface Props {
+  brandName: string;
+}
+
+const { brandName } = Astro.props;
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-brand">
+      <strong>{brandName}</strong>
+      <small>Landing template scaffold only. Visual implementation comes next.</small>
+    </div>
+    <small>{currentYear} Dococo promo template</small>
+  </div>
+</footer>

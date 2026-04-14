@@ -1,0 +1,28 @@
+{
+  "name": "seo-haneul-landing-template",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.33.0",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "astro": "astro",
+    "panda:codegen": "panda codegen",
+    "panda:watch": "panda codegen --watch"
+  },
+  "dependencies": {
+    "@astrojs/svelte": "latest",
+    "astro": "latest",
+    "svelte": "latest"
+  },
+  "devDependencies": {
+    "@astrojs/check": "latest",
+    "@pandacss/dev": "latest",
+    "@types/node": "latest",
+    "typescript": "^5.9.0"
+  }
+}

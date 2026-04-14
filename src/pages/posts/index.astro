@@ -1,0 +1,45 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../components/layout/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SectionShell from '../../components/layout/SectionShell.astro';
+import { formatDate } from '../../lib/utils/formatDate';
+
+const posts = (await getCollection('posts')).sort(
+  (left, right) =>
+    right.data.publishedAt.getTime() - left.data.publishedAt.getTime()
+);
+
+const toPostPath = (id: string) => id.replace(/\.md$/, '');
+---
+
+<BaseLayout
+  title="Posts Skeleton | Landing Template"
+  description="향후 공지/칼럼 확장용 posts 스켈레톤 페이지입니다."
+>
+  <main class="site-main">
+    <Container class="page-spacer stack">
+      <SectionShell eyebrow="Posts" title="향후 콘텐츠형 페이지를 위한 뼈대">
+        <p>
+          현재는 최소한의 라우트만 연결해 둔 상태입니다. 실제 게시판 기능은
+          범위에 포함되지 않으며, 향후 1~2개 정도의 공지/칼럼 페이지가 쉽게
+          붙을 수 있도록 구조만 준비했습니다.
+        </p>
+      </SectionShell>
+
+      <SectionShell title="Placeholder Entries">
+        <ul class="post-list">
+          {posts.map((post) => (
+            <li class="surface-card">
+              <a href={`/posts/${toPostPath(post.id)}/`}>
+                <strong>{post.data.title}</strong>
+              </a>
+              <p>{post.data.excerpt}</p>
+              <small>{formatDate(post.data.publishedAt)}</small>
+            </li>
+          ))}
+        </ul>
+      </SectionShell>
+    </Container>
+  </main>
+</BaseLayout>

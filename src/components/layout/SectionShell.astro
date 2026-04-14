@@ -1,0 +1,18 @@
+---
+export interface Props {
+  id?: string;
+  eyebrow?: string;
+  title?: string;
+  class?: string;
+}
+
+const { id, eyebrow, title, class: className = '' } = Astro.props;
+---
+
+<section id={id} class:list={['section-shell', className]}>
+  {eyebrow && <span class="section-shell__eyebrow">{eyebrow}</span>}
+  {title && <h2 class="section-shell__title">{title}</h2>}
+  <div class="section-shell__body">
+    <slot />
+  </div>
+</section>

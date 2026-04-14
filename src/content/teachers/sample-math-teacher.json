@@ -1,0 +1,108 @@
+{
+  "brand": {
+    "teacherName": "민준",
+    "subject": "수학",
+    "brandName": "민준 수학",
+    "tagline": "같은 템플릿으로 연결되는 샘플 프리뷰"
+  },
+  "seo": {
+    "title": "민준 수학 | 샘플 템플릿 프리뷰",
+    "description": "서하늘 영어 템플릿 구조를 다른 과목 데이터로 검증하기 위한 샘플 엔트리입니다.",
+    "ogImage": "/og/sample-math.png"
+  },
+  "hero": {
+    "headline": "다른 데이터로도 무너지지 않는지 확인하는 샘플",
+    "subheadline": "영어가 아닌 수학 데이터로 바꿔도 페이지 구조가 유지되도록 준비한 preview 엔트리입니다.",
+    "points": [
+      "과목 변경 대응",
+      "브랜드 카피 변경 대응",
+      "섹션 순서 제어 대응"
+    ],
+    "primaryCta": {
+      "label": "샘플 CTA",
+      "href": "#contact"
+    }
+  },
+  "trustBar": [
+    "preview 전용 샘플 데이터",
+    "동일한 필드 구조 유지",
+    "다른 강사 확장 검증용"
+  ],
+  "fitStudents": {
+    "title": "샘플 데이터로 보는 대상 학생 유형",
+    "items": [
+      "개념부터 다시 정리하고 싶은 학생",
+      "문제풀이 루틴을 만들고 싶은 학생"
+    ]
+  },
+  "curriculum": [
+    {
+      "title": "개념 정리",
+      "description": "기본 개념을 다시 연결하는 단계"
+    },
+    {
+      "title": "유형 반복",
+      "description": "반복 학습 구조 검증용 데이터",
+      "badge": "PREVIEW"
+    }
+  ],
+  "teacherIntro": {
+    "title": "샘플 강사 소개 영역",
+    "body": "실제 브랜딩 카피 대신 구조 검증용 설명만 배치해 두었습니다."
+  },
+  "proof": {
+    "title": "샘플 후기 영역",
+    "reviews": [
+      {
+        "quote": "과목만 바뀌어도 레이아웃이 유지되는지 확인하기 위한 데이터입니다.",
+        "name": "Preview User"
+      }
+    ]
+  },
+  "faq": [
+    {
+      "question": "이 페이지의 역할은 무엇인가요?",
+      "answer": "같은 템플릿에 다른 콘텐츠를 넣었을 때도 구조가 유지되는지 확인하기 위한 프리뷰입니다."
+    }
+  ],
+  "contact": {
+    "title": "샘플 문의 영역",
+    "description": "폼 구조 자체는 동일하게 유지됩니다.",
+    "fields": [
+      {
+        "name": "studentName",
+        "label": "학생 이름",
+        "type": "text",
+        "required": true
+      },
+      {
+        "name": "studentGrade",
+        "label": "학년",
+        "type": "text"
+      }
+    ]
+  },
+  "theme": {
+    "variant": "softBlush"
+  },
+  "enabledSections": [
+    "hero",
+    "trustBar",
+    "fitStudents",
+    "curriculum",
+    "teacherIntro",
+    "proof",
+    "faq",
+    "contact"
+  ],
+  "sectionOrder": [
+    "hero",
+    "fitStudents",
+    "curriculum",
+    "proof",
+    "teacherIntro",
+    "faq",
+    "contact",
+    "trustBar"
+  ]
+}
