@@ -87,7 +87,7 @@ export interface LandingData {
     points?: string[];
     primaryCta?: LandingCta;
     secondaryCta?: LandingCta;
-    image?: string;
+    image?: ImageMetadata;
   };
   trustBar?: string[];
   fitStudents?: {

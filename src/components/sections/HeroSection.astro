@@ -1,0 +1,52 @@
+---
+import type { LandingData, LandingSectionConfig } from '../../types/landing';
+import Container from '../layout/Container.astro';
+import SectionShell from '../layout/SectionShell.astro';
+import HeroImage from '../ui/HeroImage.astro';
+
+export interface Props {
+  section: LandingSectionConfig;
+  landing: LandingData;
+}
+
+const { section, landing } = Astro.props;
+const brandName = landing.brand?.brandName ?? 'Dococo Landing Template';
+const teacherName = landing.brand?.teacherName ?? '';
+const headline = landing.hero?.headline ?? brandName;
+const headlineParts = headline
+  .split(',')
+  .map((part) => part.trim())
+  .filter(Boolean);
+const heroImage = landing.hero?.image;
+const imageAlt = teacherName ? `${teacherName} 강사 프로필 이미지` : `${brandName} 대표 이미지`;
+---
+
+<SectionShell
+  id={section.id}
+  kind={section.kind}
+  class="hero-section"
+  surfaceClass="hero-section__surface"
+>
+  <Container class="hero-section__container">
+    <div class="hero-section__grid">
+      <div class="hero-section__content">
+        <h1 class="hero-section__headline">
+          {headlineParts.length > 0 ? (
+            headlineParts.map((part, index) => (
+              <span class:list={['hero-section__headline-line', index === headlineParts.length - 1 && 'is-accent']}>
+                {part}
+              </span>
+            ))
+          ) : (
+            <span class="hero-section__headline-line">{headline}</span>
+          )}
+        </h1>
+      </div>
+
+      <div class="hero-section__visual" aria-hidden={heroImage ? undefined : 'true'}>
+        <div class="hero-section__visual-glow"></div>
+        <HeroImage src={heroImage} alt={imageAlt} class="hero-section__portrait" />
+      </div>
+    </div>
+  </Container>
+</SectionShell>

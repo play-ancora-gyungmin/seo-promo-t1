@@ -1,0 +1,43 @@
+---
+export interface Props {
+  href?: string;
+  variant?: 'primary' | 'secondary';
+  size?: 'md' | 'lg';
+  class?: string;
+  type?: 'button' | 'submit' | 'reset';
+  target?: string;
+  rel?: string;
+  ariaLabel?: string;
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'lg',
+  class: className = '',
+  type = 'button',
+  target,
+  rel,
+  ariaLabel
+} = Astro.props;
+
+const classes = ['app-button', `app-button--${variant}`, `app-button--${size}`, className];
+---
+
+{
+  href ? (
+    <a
+      class:list={classes}
+      href={href}
+      target={target}
+      rel={rel}
+      aria-label={ariaLabel}
+    >
+      <slot />
+    </a>
+  ) : (
+    <button class:list={classes} type={type} aria-label={ariaLabel}>
+      <slot />
+    </button>
+  )
+}

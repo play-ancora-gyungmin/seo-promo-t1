@@ -40,7 +40,7 @@ const teachers = defineCollection({
       points: z.array(z.string()),
       primaryCta: ctaSchema.optional(),
       secondaryCta: ctaSchema.optional(),
-      image: z.string().optional()
+      image: image().optional()
     }).partial().optional(),
     trustBar: z.array(z.string()).optional(),
     fitStudents: z.object({

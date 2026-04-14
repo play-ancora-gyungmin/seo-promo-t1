@@ -23,6 +23,7 @@
     "@astrojs/check": "latest",
     "@pandacss/dev": "latest",
     "@types/node": "latest",
+    "sharp": "^0.34.5",
     "typescript": "^5.9.0"
   }
 }

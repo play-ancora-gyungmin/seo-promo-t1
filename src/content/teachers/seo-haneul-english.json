@@ -3,30 +3,17 @@
     "teacherName": "서하늘",
     "subject": "영어",
     "brandName": "서하늘 영어",
-    "tagline": "설정 단계에서 연결된 기본 엔트리",
+    "tagline": "상위권 영어의 기준",
     "logo": "../../assets/icons/seo-haneul-ci.png"
   },
   "seo": {
-    "title": "서하늘 영어 | 랜딩 템플릿 세팅",
-    "description": "서하늘 영어 랜딩페이지의 초기 프로젝트 세팅 상태를 확인하는 기본 엔트리입니다.",
+    "title": "서하늘 영어 | 상위권의 선택, 1등급의 시선",
+    "description": "내신과 수능을 함께 보는 기준, 흔들리지 않는 상위권 영어 학습의 시작.",
     "ogImage": "/og/seo-haneul-english.png"
   },
   "hero": {
-    "headline": "서하늘 영어 랜딩 프로젝트 시작 준비",
-    "subheadline": "현재는 실제 랜딩 구현 전 단계이며, 구조와 데이터 스키마를 먼저 세팅해 둔 상태입니다.",
-    "points": [
-      "Astro + Svelte + Panda 기반",
-      "콘텐츠 분리형 템플릿 구조",
-      "preview 페이지 확장 대비"
-    ],
-    "primaryCta": {
-      "label": "상담 CTA 자리",
-      "href": "#contact"
-    },
-    "secondaryCta": {
-      "label": "커리큘럼 CTA 자리",
-      "href": "#curriculum"
-    }
+    "headline": "상위권의 선택, 1등급의 시선",
+    "image": "../../assets/images/teachers/seo-haneul-hero.png"
   },
   "trustBar": [
     "신뢰 요소는 다음 단계에서 구체화 예정",
