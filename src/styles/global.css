@@ -155,20 +155,20 @@ select {
   z-index: 1;
   display: inline-flex;
   align-items: center;
-  min-height: 44px;
+  min-width: 0;
   text-decoration: none;
-  overflow: hidden;
-  flex-shrink: 1;
+  line-height: 0;
+  flex: 0 1 auto;
 }
 
 .site-brand--logo {
-  width: clamp(10.75rem, 25vw, 22rem);
   max-width: calc(100% - 6.5rem);
 }
 
 .site-brand__logo {
   display: block;
   width: auto;
+  max-width: 100%;
   height: clamp(2.05rem, 3.25vw, 2.45rem);
 }
 
@@ -358,11 +358,10 @@ select {
   }
 
   .site-brand {
-    min-height: 2.75rem;
+    min-width: 0;
   }
 
   .site-brand--logo {
-    width: min(10.5rem, calc(100% - 6rem));
     max-width: calc(100% - 6rem);
   }
 
