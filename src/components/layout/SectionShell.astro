@@ -1,5 +1,4 @@
 ---
-import Container from './Container.astro';
 import type { LandingSectionKind } from '../../types/landing';
 
 export interface Props {
@@ -26,16 +25,14 @@ const {
   data-section-kind={kind}
   data-is-active={kind === 'slide' ? 'false' : undefined}
 >
-  <Container class="landing-section__container">
-    <div
-      class:list={[
-        'landing-section__surface',
-        !noSurface && 'section-shell',
-        noSurface && 'landing-section__surface--bare',
-        surfaceClass
-      ]}
-    >
-      <slot />
-    </div>
-  </Container>
+  <div
+    class:list={[
+      'landing-section__surface',
+      !noSurface && 'section-shell',
+      noSurface && 'landing-section__surface--bare',
+      surfaceClass
+    ]}
+  >
+    <slot />
+  </div>
 </section>
