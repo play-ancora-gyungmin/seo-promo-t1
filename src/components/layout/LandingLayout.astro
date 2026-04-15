@@ -7,6 +7,7 @@ import BaseLayout from './BaseLayout.astro';
 import SiteFooter from './SiteFooter.astro';
 import SiteHeader from './SiteHeader.astro';
 import SlideDeckController from '../ui/SlideDeckController.svelte';
+import type { LandingSectionConfig } from '../../types/landing';
 
 export interface Props {
   landing: LandingData;
@@ -25,6 +26,62 @@ const brand = {
 const sections = resolveSections(landing.sections, landing.enabledSections, landing.sectionOrder);
 const heroSection = sections.find((section) => section.type === 'hero');
 const contactSection = sections.find((section) => section.type === 'contact');
+
+function buildHeaderNavItems(sections: LandingSectionConfig[], landing: LandingData) {
+  let curriculumIndex = 0;
+  let hasCurriculumNavItem = false;
+
+  return sections.flatMap((section) => {
+    if (section.type === 'hero' || section.type === 'contact') {
+      return [];
+    }
+
+    if (section.type === 'curriculum') {
+      curriculumIndex += 1;
+
+      if (hasCurriculumNavItem) {
+        return [];
+      }
+
+      hasCurriculumNavItem = true;
+    }
+
+    const explicitLabel = section.label?.trim();
+
+    if (explicitLabel) {
+      return [{ href: `#${section.id}`, label: explicitLabel }];
+    }
+
+    const label =
+      section.type === 'curriculum'
+        ? '커리큘럼'
+        : section.type === 'teacherIntro'
+          ? '강사 소개'
+          : section.type === 'scoreProof'
+            ? '성과'
+            : section.type === 'proof'
+              ? '후기'
+              : section.type === 'faq'
+                ? 'FAQ'
+                : section.type === 'teachingMaterials'
+                  ? '교재'
+                  : section.type === 'trustBar'
+                    ? '핵심 포인트'
+                    : section.type === 'fitStudents'
+                      ? landing.fitStudents?.title?.trim() || '추천 대상'
+                      : section.type === 'seasonalPromo'
+                        ? '프로모션'
+                        : section.type === 'schedule'
+                          ? '수업 일정'
+                          : section.type === 'location'
+                            ? '위치'
+                            : '섹션';
+
+    return [{ href: `#${section.id}`, label }];
+  });
+}
+
+const navItems = buildHeaderNavItems(sections, landing);
 ---
 
 <BaseLayout
@@ -35,6 +92,7 @@ const contactSection = sections.find((section) => section.type === 'contact');
 >
   <SiteHeader
     brand={brand}
+    navItems={navItems}
     topHref={heroSection ? `#${heroSection.id}` : '#hero'}
     contactHref={contactSection ? `#${contactSection.id}` : '#contact'}
   />

@@ -5,11 +5,15 @@ import FloatingHeaderController from '../ui/FloatingHeaderController.svelte';
 
 export interface Props {
   brand: NonNullable<LandingData['brand']>;
+  navItems?: Array<{
+    href: string;
+    label: string;
+  }>;
   topHref?: string;
   contactHref?: string;
 }
 
-const { brand, topHref = '#hero', contactHref = '#contact' } = Astro.props;
+const { brand, navItems = [], topHref = '#hero', contactHref = '#contact' } = Astro.props;
 const hasLogo = Boolean(brand.logo?.src);
 const logoRatio = hasLogo && brand.logo ? brand.logo.width / brand.logo.height : undefined;
 const brandSubtitle = [brand.teacherName, brand.subject].filter(Boolean).join(' ');
@@ -46,6 +50,18 @@ const brandSubtitle = [brand.teacherName, brand.subject].filter(Boolean).join(' 
           </span>
         )}
       </a>
+
+      {
+        navItems.length ? (
+          <nav class="site-header__nav" aria-label="섹션 바로가기">
+            {navItems.map((item) => (
+              <a class="site-header__nav-link" href={item.href}>
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        ) : null
+      }
 
       <a class="site-header__cta" href={contactHref}>
         문의
