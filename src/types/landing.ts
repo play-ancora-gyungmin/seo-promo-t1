@@ -44,7 +44,6 @@ export interface LandingSectionConfig {
 const defaultSectionKinds: Partial<
   Record<LandingSectionType, LandingSectionKind>
 > = {
-  proof: "flow",
   floatingCta: "flow",
 };
 
