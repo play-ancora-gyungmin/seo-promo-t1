@@ -16,8 +16,6 @@ export interface Props {
 const { section, landing } = Astro.props;
 const contact = landing.contact;
 const title = contact?.title?.trim() || '문의';
-const mapConfig = contact?.map;
-const mapPlaceName = mapConfig?.placeName?.trim();
 const mapId = `${section.id}-naver-map`;
 const academyLogo = landing.brand?.academyLogo;
 const locations =
@@ -25,6 +23,8 @@ const locations =
     const name = location.name?.trim();
     const address = location.address?.trim();
     const phone = location.phone?.trim();
+    const latitude = location.latitude;
+    const longitude = location.longitude;
 
     return name || address || phone
       ? [
@@ -32,25 +32,38 @@ const locations =
             name,
             address,
             phone,
+            latitude,
+            longitude,
             telHref: phone ? `tel:${phone.replace(/[^\d+]/g, '')}` : undefined
           }
         ]
       : [];
   }) ?? [];
 
-if (!locations.length) {
-  const address = contact?.address?.trim();
-  const phone = contact?.phone?.trim();
+const mapLabel =
+  locations[0]?.name?.trim() ||
+  landing.brand?.brandName?.trim() ||
+  '학원';
 
-  if (address || phone) {
-    locations.push({
-      name: undefined,
-      address,
-      phone,
-      telHref: phone ? `tel:${phone.replace(/[^\d+]/g, '')}` : undefined
-    });
-  }
-}
+const mapMarkers = locations.flatMap((location) => {
+  const name = location.name?.trim();
+  const address = location.address?.trim();
+  const phone = location.phone?.trim();
+  const latitude = location.latitude;
+  const longitude = location.longitude;
+
+  return name || address
+    ? [
+        {
+          name,
+          address,
+          phone,
+          latitude,
+          longitude
+        }
+      ]
+    : [];
+});
 
 const channels =
   contact?.channels?.flatMap((channel) => {
@@ -164,10 +177,12 @@ const actionGroupStyle = `--contact-action-count:${actionCount};`;
       <div
         class="contact-section__map"
         role="region"
-        aria-label={`${mapPlaceName || landing.brand?.brandName?.trim() || '학원'} 위치 지도`}
+        aria-label={`${mapLabel} 위치 지도`}
       >
         <NaverMap
           mapId={mapId}
+          markers={mapMarkers}
+          mapLabel={mapLabel}
         />
       </div>
     </div>

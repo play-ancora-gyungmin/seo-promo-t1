@@ -1,11 +1,22 @@
 ---
-export interface Props {
-  mapId: string;
+interface NaverMapMarker {
+  name?: string;
+  address?: string;
+  phone?: string;
+  latitude?: number;
+  longitude?: number;
 }
 
-const { mapId } = Astro.props;
+export interface Props {
+  mapId: string;
+  markers?: NaverMapMarker[];
+  mapLabel?: string;
+}
+
+const { mapId, markers = [], mapLabel } = Astro.props;
 
 const clientId = import.meta.env.PUBLIC_NAVER_MAPS_CLIENT_ID?.trim() ?? '';
+const markerPayload = JSON.stringify(markers);
 ---
 
 <div
@@ -13,6 +24,8 @@ const clientId = import.meta.env.PUBLIC_NAVER_MAPS_CLIENT_ID?.trim() ?? '';
   data-dococo-naver-map
   data-map-id={mapId}
   data-client-id={clientId}
+  data-markers={markerPayload}
+  data-map-label={mapLabel?.trim() || undefined}
 >
   <div id={mapId} class="naver-map__canvas"></div>
 </div>
@@ -22,6 +35,7 @@ const clientId = import.meta.env.PUBLIC_NAVER_MAPS_CLIENT_ID?.trim() ?? '';
   const NAVER_MAPS_SCRIPT_SELECTOR = 'script[data-dococo-naver-maps="true"]';
   const NAVER_MAPS_NAMESPACE_WAIT_MS = 5000;
   const NAVER_MAPS_NAMESPACE_POLL_MS = 50;
+  const DEFAULT_INITIAL_ZOOM = 17;
 
   function warn(message, detail) {
     const prefix = '[Dococo:NaverMap]';
@@ -33,10 +47,161 @@ const clientId = import.meta.env.PUBLIC_NAVER_MAPS_CLIENT_ID?.trim() ?? '';
     console.warn(`${prefix} ${message}`);
   }
 
-  function createMap(root) {
+  function escapeHtml(value) {
+    return String(value)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#39;');
+  }
+
+  function parseMarkers(root) {
+    const raw = root.dataset.markers;
+
+    if (!raw) {
+      return [];
+    }
+
+    try {
+      const parsed = JSON.parse(raw);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+      warn('Failed to parse marker payload.', error);
+      return [];
+    }
+  }
+
+  function buildMarkerIcon(label) {
+    const safeLabel = escapeHtml(label);
+
+    return {
+      content: `
+        <div class="dococo-map-marker" aria-hidden="true">
+          <span class="dococo-map-marker__label">${safeLabel}</span>
+          <span class="dococo-map-marker__pin"></span>
+        </div>
+      `,
+      anchor: new window.naver.maps.Point(0, 0)
+    };
+  }
+
+  function buildInfoWindowContent(marker) {
+    const parts = [];
+
+    if (marker.name) {
+      parts.push(`<strong class="dococo-map-info__title">${escapeHtml(marker.name)}</strong>`);
+    }
+
+    if (marker.address) {
+      parts.push(`<p class="dococo-map-info__text">${escapeHtml(marker.address)}</p>`);
+    }
+
+    if (marker.phone) {
+      parts.push(`<p class="dococo-map-info__text">${escapeHtml(marker.phone)}</p>`);
+    }
+
+    return `
+      <div class="dococo-map-info">
+        ${parts.join('')}
+      </div>
+    `;
+  }
+
+  function createGeocodeQueryCandidates(address) {
+    const normalized = address.trim().replaceAll(/\s+/g, ' ');
+    const withoutPostalCode = normalized.replace(/^\(\d{5}\)\s*/u, '').replace(/^\d{5}\s*/u, '');
+    const withoutNotes = withoutPostalCode.replace(/\s*\([^)]*\)/gu, '').trim();
+    const withoutFloor = withoutNotes.replace(/,?\s*\d+층.*$/u, '').trim();
+    const expandedCity = withoutFloor.replace(/^대전시\s/u, '대전광역시 ');
+    const commaFree = expandedCity.replaceAll(',', ' ').replaceAll(/\s+/g, ' ').trim();
+
+    return [...new Set([
+      normalized,
+      withoutPostalCode,
+      withoutNotes,
+      withoutFloor,
+      expandedCity,
+      commaFree
+    ].filter(Boolean))];
+  }
+
+  function geocodeQuery(query) {
+    return new Promise((resolve) => {
+      if (!window.naver?.maps?.Service?.geocode) {
+        warn('NAVER Maps geocoder is unavailable.');
+        resolve(null);
+        return;
+      }
+
+      window.naver.maps.Service.geocode(
+        {
+          query
+        },
+        (status, response) => {
+          const addresses = response?.v2?.addresses;
+
+          if (status !== window.naver.maps.Service.Status.OK || !Array.isArray(addresses) || !addresses.length) {
+            resolve(null);
+            return;
+          }
+
+          const { x, y } = addresses[0];
+          const longitude = Number(x);
+          const latitude = Number(y);
+
+          if (Number.isNaN(latitude) || Number.isNaN(longitude)) {
+            resolve(null);
+            return;
+          }
+
+          resolve(new window.naver.maps.LatLng(latitude, longitude));
+        }
+      );
+    });
+  }
+
+  async function geocodeAddress(address) {
+    const candidates = createGeocodeQueryCandidates(address);
+
+    for (const query of candidates) {
+      const result = await geocodeQuery(query);
+
+      if (result) {
+        return result;
+      }
+    }
+
+    warn('Failed to geocode marker address.', {
+      address,
+      candidates
+    });
+
+    return null;
+  }
+
+  async function resolveMarkerPosition(marker) {
+    if (Number.isFinite(marker.latitude) && Number.isFinite(marker.longitude)) {
+      return new window.naver.maps.LatLng(marker.latitude, marker.longitude);
+    }
+
+    if (typeof marker.address === 'string' && marker.address.trim()) {
+      return geocodeAddress(marker.address.trim());
+    }
+
+    return null;
+  }
+
+  function buildFallbackMarkers() {
+    return [];
+  }
+
+  async function createMap(root) {
     const clientId = root.dataset.clientId?.trim();
     const mapId = root.dataset.mapId;
     const target = mapId ? document.getElementById(mapId) : null;
+    const requestedMarkers = parseMarkers(root);
+    const markerPayload = requestedMarkers.length ? requestedMarkers : buildFallbackMarkers();
 
     if (!clientId) {
       warn('PUBLIC_NAVER_MAPS_CLIENT_ID is empty.');
@@ -53,12 +218,90 @@ const clientId = import.meta.env.PUBLIC_NAVER_MAPS_CLIENT_ID?.trim() ?? '';
       return;
     }
 
-    new window.naver.maps.Map(mapId);
+    if (!markerPayload.length) {
+      warn('No map markers were provided.', { mapId });
+      return;
+    }
+
+    const resolvedMarkers = (
+      await Promise.all(
+        markerPayload.map(async (marker) => {
+          const position = await resolveMarkerPosition(marker);
+
+          return position
+            ? {
+                ...marker,
+                position
+              }
+            : null;
+        })
+      )
+    ).filter(Boolean);
+
+    if (!resolvedMarkers.length) {
+      warn('No valid marker positions could be resolved.', { mapId, markerPayload });
+      return;
+    }
+
+    const bounds = new window.naver.maps.LatLngBounds();
+    resolvedMarkers.forEach((marker) => {
+      bounds.extend(marker.position);
+    });
+
+    const primaryPosition = resolvedMarkers[0].position;
+    const initialCenter =
+      resolvedMarkers.length > 1
+        ? bounds.getCenter()
+        : primaryPosition;
+    const map = new window.naver.maps.Map(mapId, {
+      center: initialCenter,
+      zoom: DEFAULT_INITIAL_ZOOM
+    });
+
+    let activeInfoWindow = null;
+
+    resolvedMarkers.forEach((marker) => {
+      const label = marker.name || marker.address || '학원';
+      const mapMarker = new window.naver.maps.Marker({
+        position: marker.position,
+        map,
+        title: label,
+        icon: buildMarkerIcon(label)
+      });
+
+      const infoWindow = new window.naver.maps.InfoWindow({
+        content: buildInfoWindowContent(marker),
+        borderWidth: 0,
+        backgroundColor: '#fffdf8',
+        anchorSize: new window.naver.maps.Size(14, 8),
+        pixelOffset: new window.naver.maps.Point(0, -8)
+      });
+
+      window.naver.maps.Event.addListener(mapMarker, 'click', () => {
+        if (activeInfoWindow && activeInfoWindow !== infoWindow) {
+          activeInfoWindow.close();
+        }
+
+        if (infoWindow.getMap()) {
+          infoWindow.close();
+          if (activeInfoWindow === infoWindow) {
+            activeInfoWindow = null;
+          }
+          return;
+        }
+
+        infoWindow.open(map, mapMarker);
+        activeInfoWindow = infoWindow;
+      });
+    });
+
   }
 
   function enqueueMapInit(root) {
     window.__dococoNaverMapQueue__ = window.__dococoNaverMapQueue__ || [];
-    window.__dococoNaverMapQueue__.push(() => createMap(root));
+    window.__dococoNaverMapQueue__.push(() => {
+      createMap(root);
+    });
   }
 
   function flushMapQueue() {
@@ -127,7 +370,7 @@ const clientId = import.meta.env.PUBLIC_NAVER_MAPS_CLIENT_ID?.trim() ?? '';
     if (!document.querySelector(NAVER_MAPS_SCRIPT_SELECTOR)) {
       const script = document.createElement('script');
       script.src =
-        `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${encodeURIComponent(clientId)}&callback=${NAVER_MAPS_CALLBACK}`;
+        `https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=${encodeURIComponent(clientId)}&submodules=geocoder&callback=${NAVER_MAPS_CALLBACK}`;
       script.async = true;
       script.defer = true;
       script.dataset.dococoNaverMaps = 'true';
@@ -164,5 +407,71 @@ const clientId = import.meta.env.PUBLIC_NAVER_MAPS_CLIENT_ID?.trim() ?? '';
 
   .naver-map img {
     display: inline-block;
+  }
+</style>
+
+<style is:global>
+  .dococo-map-marker {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transform: translate(-50%, -100%);
+  }
+
+  .dococo-map-marker__label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 0 14px;
+    border: 1px solid rgba(32, 48, 78, 0.12);
+    border-radius: 999px;
+    background: rgba(255, 253, 248, 0.96);
+    box-shadow: 0 14px 30px rgba(59, 84, 122, 0.16);
+    color: #22355d;
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .dococo-map-marker__pin {
+    width: 16px;
+    height: 16px;
+    border: 3px solid #fffdf8;
+    border-radius: 999px;
+    background: #4c6edb;
+    box-shadow: 0 10px 20px rgba(59, 84, 122, 0.28);
+  }
+
+  .dococo-map-info {
+    min-width: 188px;
+    max-width: 240px;
+    padding: 14px 16px;
+    border: 1px solid rgba(32, 48, 78, 0.12);
+    border-radius: 18px;
+    background: #fffdf8;
+    box-shadow: 0 16px 30px rgba(59, 84, 122, 0.16);
+    color: #2d3a56;
+  }
+
+  .dococo-map-info__title {
+    display: block;
+    margin: 0 0 8px;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  .dococo-map-info__text {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.5;
+    word-break: keep-all;
+  }
+
+  .dococo-map-info__text + .dococo-map-info__text {
+    margin-top: 4px;
   }
 </style>
