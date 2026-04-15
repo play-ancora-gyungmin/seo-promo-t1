@@ -72,12 +72,43 @@ const markerPayload = JSON.stringify(markers);
     }
   }
 
-  function buildMarkerIcon(label) {
+  function getPositionCoordinates(position) {
+    if (!position) {
+      return null;
+    }
+
+    const latitude =
+      typeof position.lat === 'function'
+        ? position.lat()
+        : typeof position.y === 'number'
+          ? position.y
+          : typeof position._lat === 'number'
+            ? position._lat
+            : null;
+    const longitude =
+      typeof position.lng === 'function'
+        ? position.lng()
+        : typeof position.x === 'number'
+          ? position.x
+          : typeof position._lng === 'number'
+            ? position._lng
+            : null;
+
+    return typeof latitude === 'number' && typeof longitude === 'number'
+      ? { latitude, longitude }
+      : null;
+  }
+
+  function buildMarkerIcon(label, placement = 'top') {
     const safeLabel = escapeHtml(label);
+    const placementClass =
+      placement === 'bottom'
+        ? ' dococo-map-marker--label-bottom'
+        : '';
 
     return {
       content: `
-        <div class="dococo-map-marker" aria-hidden="true">
+        <div class="dococo-map-marker${placementClass}" aria-hidden="true">
           <span class="dococo-map-marker__label">${safeLabel}</span>
           <span class="dococo-map-marker__pin"></span>
         </div>
@@ -253,6 +284,7 @@ const markerPayload = JSON.stringify(markers);
       resolvedMarkers.length > 1
         ? bounds.getCenter()
         : primaryPosition;
+    const centerCoordinates = getPositionCoordinates(initialCenter);
     const map = new window.naver.maps.Map(mapId, {
       center: initialCenter,
       zoom: DEFAULT_INITIAL_ZOOM
@@ -262,11 +294,18 @@ const markerPayload = JSON.stringify(markers);
 
     resolvedMarkers.forEach((marker) => {
       const label = marker.name || marker.address || '학원';
+      const markerCoordinates = getPositionCoordinates(marker.position);
+      const markerPlacement =
+        centerCoordinates &&
+        markerCoordinates &&
+        markerCoordinates.latitude > centerCoordinates.latitude
+          ? 'bottom'
+          : 'top';
       const mapMarker = new window.naver.maps.Marker({
         position: marker.position,
         map,
         title: label,
-        icon: buildMarkerIcon(label)
+        icon: buildMarkerIcon(label, markerPlacement)
       });
 
       const infoWindow = new window.naver.maps.InfoWindow({
@@ -295,6 +334,12 @@ const markerPayload = JSON.stringify(markers);
       });
     });
 
+    if (resolvedMarkers.length > 1) {
+      map.fitBounds(bounds);
+      window.naver.maps.Event.once(map, 'idle', () => {
+        map.setZoom(Math.min(map.getZoom(), DEFAULT_INITIAL_ZOOM), false);
+      });
+    }
   }
 
   function enqueueMapInit(root) {
@@ -417,6 +462,11 @@ const markerPayload = JSON.stringify(markers);
     align-items: center;
     gap: 6px;
     transform: translate(-50%, -100%);
+  }
+
+  .dococo-map-marker--label-bottom {
+    flex-direction: column-reverse;
+    transform: translate(-50%, 0);
   }
 
   .dococo-map-marker__label {
