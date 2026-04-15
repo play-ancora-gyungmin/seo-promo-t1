@@ -1162,6 +1162,11 @@ select {
   line-height: 1.08;
 }
 
+.score-proof-section__headline-mobile-break,
+.proof-section__headline-mobile-break {
+  display: none;
+}
+
 .score-proof-section__description {
   margin: 0;
   color: #445066;
@@ -2065,6 +2070,11 @@ select {
 }
 
 @media (max-width: 900px) {
+  .score-proof-section__headline-mobile-break,
+  .proof-section__headline-mobile-break {
+    display: block;
+  }
+
   .contact-section__grid {
     grid-template-columns: 1fr;
   }

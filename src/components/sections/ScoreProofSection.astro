@@ -12,6 +12,21 @@ const { section, landing } = Astro.props;
 const scoreProof = landing.scoreProof;
 const eyebrow = scoreProof?.eyebrow?.trim();
 const title = scoreProof?.title?.trim() || '후기 전에 먼저 확인하는 실제 성과';
+const scoreProofHeadlineBreakMatch = /^(.*?)(증명합니다\.?)$/;
+const titleSegments = (() => {
+  const matched = title.match(scoreProofHeadlineBreakMatch);
+
+  if (!matched) {
+    return [{ text: title, breakBefore: false }];
+  }
+
+  const [, leadingText, trailingText] = matched;
+
+  return [
+    { text: leadingText.trimEnd(), breakBefore: false },
+    { text: trailingText, breakBefore: Boolean(leadingText.trim()) }
+  ].filter((segment) => segment.text);
+})();
 const description = scoreProof?.description?.trim();
 const stats =
   scoreProof?.stats?.flatMap((stat) => {
@@ -61,7 +76,16 @@ const hasContent = Boolean(scoreProof) && Boolean(
       <Container class="score-proof-section__container">
         <div class="score-proof-section__heading">
           {eyebrow ? <p class="score-proof-section__eyebrow">{eyebrow}</p> : null}
-          <h2 class="score-proof-section__headline">{title}</h2>
+          <h2 class="score-proof-section__headline">
+            {titleSegments.map((segment) => (
+              <>
+                {segment.breakBefore ? (
+                  <br class="score-proof-section__headline-mobile-break" aria-hidden="true" />
+                ) : null}
+                <span>{segment.text}</span>
+              </>
+            ))}
+          </h2>
           {description ? <p class="score-proof-section__description">{description}</p> : null}
         </div>
 

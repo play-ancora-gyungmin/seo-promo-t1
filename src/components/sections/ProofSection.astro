@@ -16,6 +16,21 @@ const titleLines =
   titleCommaIndex >= 0
     ? [title.slice(0, titleCommaIndex + 1), title.slice(titleCommaIndex + 1).trimStart()].filter(Boolean)
     : [title];
+const proofHeadlineBreakMatch = /^(.*?)(증명합니다\.?)$/;
+const titleLineSegments = titleLines.map((line) => {
+  const matched = line.match(proofHeadlineBreakMatch);
+
+  if (!matched) {
+    return [{ text: line, breakBefore: false }];
+  }
+
+  const [, leadingText, trailingText] = matched;
+
+  return [
+    { text: leadingText.trimEnd(), breakBefore: false },
+    { text: trailingText, breakBefore: Boolean(leadingText.trim()) }
+  ].filter((segment) => segment.text);
+});
 const reviews =
   landing.proof?.reviews?.flatMap((review, index) =>
     review.image
@@ -46,8 +61,15 @@ const reviewRows = [0, 1]
   <Container class="proof-section__container">
     <div class="proof-section__heading">
       <h2 class="proof-section__headline">
-        {titleLines.map((line) => (
-          <span class="proof-section__headline-line">{line}</span>
+        {titleLineSegments.map((segments) => (
+          <span class="proof-section__headline-line">
+            {segments.map((segment) => (
+              <>
+                {segment.breakBefore ? <br class="proof-section__headline-mobile-break" aria-hidden="true" /> : null}
+                <span>{segment.text}</span>
+              </>
+            ))}
+          </span>
         ))}
       </h2>
     </div>
