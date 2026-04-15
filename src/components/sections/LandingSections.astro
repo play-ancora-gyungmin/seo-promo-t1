@@ -3,6 +3,7 @@ import type { LandingData } from '../../types/landing';
 import { getLandingSkeletonSections } from '../../lib/landing/getLandingSkeletonSections';
 import SectionShell from '../layout/SectionShell.astro';
 import HeroSection from './HeroSection.astro';
+import ProofSection from './ProofSection.astro';
 import TeacherIntroSection from './TeacherIntroSection.astro';
 
 export interface Props {
@@ -21,6 +22,8 @@ const sections = getLandingSkeletonSections(
   sections.map((section) => (
     section.type === 'hero' ? (
       <HeroSection section={section} landing={landing} />
+    ) : section.type === 'proof' ? (
+      <ProofSection section={section} landing={landing} />
     ) : section.type === 'teacherIntro' ? (
       <TeacherIntroSection section={section} landing={landing} />
     ) : (

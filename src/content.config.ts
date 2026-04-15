@@ -74,7 +74,9 @@ const teachers = defineCollection({
       reviews: z.array(
         z.object({
           quote: z.string(),
-          name: z.string()
+          name: z.string(),
+          alt: z.string().optional(),
+          image: image().optional()
         }).partial()
       )
     }).partial().optional(),

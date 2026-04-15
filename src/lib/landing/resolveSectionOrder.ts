@@ -9,6 +9,7 @@ import {
 
 const canonicalOrder = [...defaultSectionOrder, ...optionalSectionIds];
 const defaultKinds: Partial<Record<LandingSectionId, LandingSectionKind>> = {
+  proof: 'flow',
   floatingCta: 'flow'
 };
 

@@ -57,11 +57,55 @@
     "image": "../../assets/images/teachers/seo-haneul-hero.png"
   },
   "proof": {
-    "title": "후기/증빙 섹션 자리",
+    "title": "영어 성적 상승, 학생들의 후기로 증명합니다.",
     "reviews": [
       {
-        "quote": "리뷰 구조가 정상적으로 연결되는지 확인하기 위한 임시 데이터입니다.",
-        "name": "템플릿 검증용"
+        "image": "../../assets/images/reviews/e_f94Ud018svc1br1wolk9h1n_ibmxj.jpg",
+        "alt": "시험 준비 과정과 성적 상승에 감사함을 전한 카카오톡 후기"
+      },
+      {
+        "image": "../../assets/images/reviews/e_f94Ud018svc1q3ppkclruaex_ibmxj.jpg",
+        "alt": "체계적인 관리 덕분에 좋은 성적을 냈다고 전한 카카오톡 후기"
+      },
+      {
+        "image": "../../assets/images/reviews/e_g94Ud018svcfwn6eo2ci32z_ibmxj.jpg",
+        "alt": "1등급에 가까운 성적과 꼼꼼한 수업 준비를 언급한 카카오톡 후기"
+      },
+      {
+        "image": "../../assets/images/reviews/e_h94Ud018svc1dtb6se7zp60p_ibmxj.jpg",
+        "alt": "72점에서 96점으로 상승했다고 전한 카카오톡 후기"
+      },
+      {
+        "image": "../../assets/images/reviews/e_i94Ud018svcjq60ejho0toi_ibmxj.jpg",
+        "alt": "기말에는 꼭 1등급을 찍겠다고 다짐한 카카오톡 대화"
+      },
+      {
+        "image": "../../assets/images/reviews/f_194Ud018svc1p9nrvn8t91p_ibmxj.jpg",
+        "alt": "동형모고와 단어 자료가 도움이 됐다고 전한 카카오톡 후기"
+      },
+      {
+        "image": "../../assets/images/reviews/f_194Ud018svcadqddlqqo4hm_ibmxj.jpg",
+        "alt": "시험에 선생님이 알려준 단어가 많이 나왔다고 전한 카카오톡 후기"
+      },
+      {
+        "image": "../../assets/images/reviews/f_094Ud018svcoxnhlrqx4pjn_ibmxj.jpg",
+        "alt": "유의어와 외부지문 읽는 법이 도움이 됐다고 전한 카카오톡 후기"
+      },
+      {
+        "image": "../../assets/images/reviews/f_394Ud018svcnffp93lbokmo_ibmxj.jpg",
+        "alt": "클리닉과 자체 교재에 감사하며 더 열심히 하겠다고 전한 카카오톡 후기"
+      },
+      {
+        "image": "../../assets/images/reviews/e_j94Ud018svc15nf9cs4prnc2_ibmxj.jpg",
+        "alt": "2년 동안 감사했고 다음 학년도 꼭 함께하고 싶다고 전한 카카오톡 후기"
+      },
+      {
+        "image": "../../assets/images/reviews/f_394Ud018svcz3iz1pv5pxuu_ibmxj.jpg",
+        "alt": "중간고사 이후 최종 1등급을 받을 수 있었다고 전한 카카오톡 후기"
+      },
+      {
+        "image": "../../assets/images/reviews/f_594Ud018svc1rg7o6mdqui8r_ibmxj.jpg",
+        "alt": "영어가 3등급에서 1등급까지 올랐다고 전한 카카오톡 후기"
       }
     ]
   },

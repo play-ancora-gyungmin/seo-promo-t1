@@ -813,6 +813,104 @@ select {
   background: linear-gradient(135deg, #4b79b8, #7b63cb);
 }
 
+.proof-section__surface {
+  background:
+    radial-gradient(circle at 18% 22%, rgba(201, 220, 255, 0.42), transparent 30%),
+    radial-gradient(circle at 84% 18%, rgba(227, 213, 255, 0.42), transparent 24%),
+    linear-gradient(180deg, rgba(246, 250, 255, 0.96), rgba(238, 244, 255, 0.9));
+  border-top: 1px solid var(--line-color);
+  border-bottom: 1px solid var(--line-color);
+}
+
+.proof-section__surface .section-shell {
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+
+.proof-section__container {
+  display: grid;
+  gap: clamp(1.5rem, 2.8vw, 2.5rem);
+}
+
+.proof-section__heading {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+.proof-section__headline {
+  max-width: 18ch;
+  margin: 0;
+  color: #183a6a;
+  font-family: "A2Z", "Pretendard", sans-serif;
+  font-size: clamp(2.25rem, 4.6vw, 4rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+
+.proof-section__marquee {
+  position: relative;
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  margin-inline: calc(50% - 50vw);
+  display: grid;
+  gap: clamp(1.25rem, 2.8vw, 1.9rem);
+  padding-inline: clamp(1rem, 3vw, 2rem);
+  padding-block: clamp(0.75rem, 1.8vw, 1rem);
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.proof-section__track {
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+
+.proof-section__rail {
+  display: flex;
+  gap: 0.85rem;
+  align-items: center;
+  width: max-content;
+  animation: proof-marquee 34s linear infinite;
+  will-change: transform;
+}
+
+.proof-section__rail--reverse {
+  animation-direction: reverse;
+  animation-duration: 38s;
+}
+
+.proof-section__card {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0.5rem;
+  border: 1px solid rgba(78, 110, 161, 0.16);
+  border-radius: 1.15rem;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.proof-section__image,
+.proof-section__image img {
+  display: block;
+  width: auto !important;
+  height: clamp(7.2rem, 16.8vh, 10.8rem) !important;
+  max-width: none;
+  max-height: none;
+  border-radius: 0.85rem;
+}
+
+@keyframes proof-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(calc(-50% - 0.425rem));
+  }
+}
+
 @media (min-width: 1025px) {
   .hero-section__surface {
     --hero-visual-top-margin: clamp(1rem, 4vh, 2.75rem);
@@ -1025,6 +1123,50 @@ select {
     gap: 0.75rem;
     padding: 0.95rem 0;
     font-size: 0.98rem;
+  }
+
+  .proof-section__surface .section-shell {
+    padding-block: 2.5rem max(
+      1.5rem,
+      calc(var(--header-height) + env(safe-area-inset-bottom) + 0.875rem)
+    );
+  }
+
+  .proof-section__headline {
+    font-size: clamp(1.95rem, 7vw, 2.6rem);
+  }
+
+  .proof-section__marquee {
+    margin-top: 0.85rem;
+    gap: 1rem;
+    padding-inline: 1rem;
+    padding-block: 0.7rem;
+    overflow-x: hidden;
+    overflow-y: visible;
+  }
+
+  .proof-section__rail {
+    gap: 0.65rem;
+    animation-duration: 28s;
+  }
+
+  .proof-section__rail--reverse {
+    animation-duration: 32s;
+  }
+
+  .proof-section__card {
+    padding: 0.35rem;
+  }
+
+  .proof-section__image,
+  .proof-section__image img {
+    height: min(16.8vh, 7.2rem) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .proof-section__rail {
+    animation: none;
   }
 }
 

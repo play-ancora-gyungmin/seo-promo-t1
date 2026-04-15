@@ -1,0 +1,73 @@
+---
+import { Picture } from 'astro:assets';
+import type { LandingData, LandingSectionConfig } from '../../types/landing';
+import Container from '../layout/Container.astro';
+import SectionShell from '../layout/SectionShell.astro';
+
+export interface Props {
+  section: LandingSectionConfig;
+  landing: LandingData;
+}
+
+const { section, landing } = Astro.props;
+const title = landing.proof?.title?.trim() || '영어 성적 상승, 학생들의 후기로 증명합니다.';
+const reviews =
+  landing.proof?.reviews?.flatMap((review, index) =>
+    review.image
+      ? [
+          {
+            image: review.image,
+            alt: review.alt?.trim() || `카카오톡 성적 상승 후기 ${index + 1}`
+          }
+        ]
+      : []
+  ) ?? [];
+const reviewRows = [0, 1]
+  .map((rowIndex) => reviews.filter((_, index) => index % 2 === rowIndex))
+  .filter((row) => row.length)
+  .map((row, rowIndex) => ({
+    direction: rowIndex % 2 === 0 ? 'forward' : 'reverse',
+    originalCount: row.length,
+    items: [...row, ...row]
+  }));
+---
+
+<SectionShell
+  id={section.id}
+  kind="flow"
+  class="proof-section"
+  surfaceClass="proof-section__surface"
+>
+  <Container class="proof-section__container">
+    <div class="proof-section__heading">
+      <h2 class="proof-section__headline">{title}</h2>
+    </div>
+
+    {
+      reviewRows.length ? (
+        <div class="proof-section__marquee" aria-label="학생 카카오톡 후기 카드">
+          {reviewRows.map((row) => (
+            <div class="proof-section__track">
+              <div class:list={['proof-section__rail', row.direction === 'reverse' && 'proof-section__rail--reverse']}>
+                {row.items.map((review, index) => (
+                  <article class="proof-section__card" aria-hidden={index >= row.originalCount ? 'true' : undefined}>
+                    <Picture
+                      src={review.image}
+                      alt={index >= row.originalCount ? '' : review.alt}
+                      class="proof-section__image"
+                      formats={['avif', 'webp']}
+                      fallbackFormat="png"
+                      layout="constrained"
+                      widths={[480, 640, 800, 960]}
+                      sizes="(min-width: 1200px) 17rem, (min-width: 720px) 15rem, 46vw"
+                    />
+                  </article>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : null
+    }
+  </Container>
+</SectionShell>

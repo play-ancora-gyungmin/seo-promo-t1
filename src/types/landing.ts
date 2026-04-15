@@ -44,6 +44,7 @@ export interface LandingSectionConfig {
 const defaultSectionKinds: Partial<
   Record<LandingSectionType, LandingSectionKind>
 > = {
+  proof: "flow",
   floatingCta: "flow",
 };
 
@@ -118,6 +119,8 @@ export interface LandingData {
     reviews?: Array<{
       quote?: string;
       name?: string;
+      alt?: string;
+      image?: ImageMetadata;
     }>;
   };
   faq?: Array<{
