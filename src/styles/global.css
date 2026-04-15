@@ -1634,6 +1634,12 @@ select {
   }
 }
 
+@media (max-width: 400px) {
+  .score-proof-section__surface .section-shell {
+    padding-inline: 0.1rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
