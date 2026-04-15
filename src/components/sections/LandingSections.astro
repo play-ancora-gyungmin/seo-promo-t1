@@ -2,6 +2,7 @@
 import type { LandingData } from '../../types/landing';
 import { getLandingSkeletonSections } from '../../lib/landing/getLandingSkeletonSections';
 import SectionShell from '../layout/SectionShell.astro';
+import CurriculumSection from './CurriculumSection.astro';
 import HeroSection from './HeroSection.astro';
 import ProofSection from './ProofSection.astro';
 import ScoreProofSection from './ScoreProofSection.astro';
@@ -17,6 +18,7 @@ const sections = getLandingSkeletonSections(
   landing.enabledSections,
   landing.sectionOrder
 );
+let curriculumIndex = 0;
 ---
 
 {
@@ -29,6 +31,12 @@ const sections = getLandingSkeletonSections(
       <ProofSection section={section} landing={landing} />
     ) : section.type === 'teacherIntro' ? (
       <TeacherIntroSection section={section} landing={landing} />
+    ) : section.type === 'curriculum' ? (
+      <CurriculumSection
+        section={section}
+        landing={landing}
+        curriculumIndex={curriculumIndex++}
+      />
     ) : (
       <SectionShell id={section.id} kind={section.kind}>
         <span class="landing-placeholder-label">{section.label}</span>

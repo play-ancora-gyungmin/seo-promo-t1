@@ -1,0 +1,32 @@
+---
+import type { LandingData, LandingSectionConfig } from '../../types/landing';
+import Container from '../layout/Container.astro';
+import SectionShell from '../layout/SectionShell.astro';
+
+export interface Props {
+  section: LandingSectionConfig;
+  landing: LandingData;
+  curriculumIndex?: number;
+}
+
+const { section, landing, curriculumIndex = 0 } = Astro.props;
+const curriculumItem = landing.curriculum?.[curriculumIndex];
+const badge = curriculumItem?.badge?.trim();
+const title = curriculumItem?.title?.trim();
+const description = curriculumItem?.description?.trim();
+---
+
+<SectionShell
+  id={section.id}
+  kind={section.kind}
+  class="curriculum-section"
+  surfaceClass="curriculum-section__surface"
+>
+  <Container class="curriculum-section__container">
+    <div class="curriculum-section__inner">
+      {badge ? <span class="curriculum-section__badge">{badge}</span> : null}
+      {title ? <h2 class="curriculum-section__title">{title}</h2> : null}
+      {description ? <p class="curriculum-section__description">{description}</p> : null}
+    </div>
+  </Container>
+</SectionShell>

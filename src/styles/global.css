@@ -813,6 +813,54 @@ select {
   background: linear-gradient(135deg, #4b79b8, #7b63cb);
 }
 
+.curriculum-section__surface .section-shell {
+  padding-block: clamp(3rem, 6vw, 5rem);
+}
+
+.curriculum-section__container {
+  width: 100%;
+}
+
+.curriculum-section__inner {
+  display: grid;
+  gap: 0.85rem;
+  max-width: 48rem;
+  margin-inline: auto;
+}
+
+.curriculum-section__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  width: fit-content;
+  padding: 0.7rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(54, 93, 150, 0.18);
+  color: #244677;
+  font-size: 0.92rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.curriculum-section__title {
+  margin: 0;
+  color: #183a6a;
+  font-family: "A2Z", "Pretendard", sans-serif;
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+}
+
+.curriculum-section__description {
+  margin: 0;
+  color: #445066;
+  font-size: clamp(1rem, 1.4vw, 1.12rem);
+  font-weight: 500;
+  line-height: 1.75;
+}
+
 .score-proof-section__surface {
   background:
     radial-gradient(circle at 14% 20%, rgba(196, 220, 255, 0.42), transparent 28%),
@@ -1327,6 +1375,13 @@ select {
   }
 
   .score-proof-section__surface .section-shell {
+    padding-block: 2.5rem max(
+      1.5rem,
+      calc(var(--header-height) + env(safe-area-inset-bottom) + 0.875rem)
+    );
+  }
+
+  .curriculum-section__surface .section-shell {
     padding-block: 2.5rem max(
       1.5rem,
       calc(var(--header-height) + env(safe-area-inset-bottom) + 0.875rem)

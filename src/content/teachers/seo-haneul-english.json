@@ -38,9 +38,19 @@
   },
   "curriculum": [
     {
-      "title": "커리큘럼 데이터 구조",
-      "description": "타이틀, 설명, 배지까지 들어갈 수 있는 배열 구조를 기본값으로 준비했습니다.",
-      "badge": "SETUP"
+      "badge": "",
+      "title": "",
+      "description": ""
+    },
+    {
+      "badge": "",
+      "title": "",
+      "description": ""
+    },
+    {
+      "badge": "",
+      "title": "",
+      "description": ""
     }
   ],
   "teacherIntro": {
@@ -199,22 +209,42 @@
   "theme": {
     "variant": "daySky"
   },
-  "enabledSections": [
-    "hero",
-    "teacherIntro",
-    "scoreProof",
-    "proof",
-    "curriculum",
-    "teachingMaterials",
-    "contact"
-  ],
-  "sectionOrder": [
-    "hero",
-    "teacherIntro",
-    "scoreProof",
-    "proof",
-    "curriculum",
-    "teachingMaterials",
-    "contact"
+  "sections": [
+    {
+      "id": "hero",
+      "type": "hero"
+    },
+    {
+      "id": "teacherIntro",
+      "type": "teacherIntro"
+    },
+    {
+      "id": "scoreProof",
+      "type": "scoreProof"
+    },
+    {
+      "id": "proof",
+      "type": "proof"
+    },
+    {
+      "id": "curriculum-1",
+      "type": "curriculum"
+    },
+    {
+      "id": "curriculum-2",
+      "type": "curriculum"
+    },
+    {
+      "id": "curriculum-3",
+      "type": "curriculum"
+    },
+    {
+      "id": "teachingMaterials",
+      "type": "teachingMaterials"
+    },
+    {
+      "id": "contact",
+      "type": "contact"
+    }
   ]
 }
