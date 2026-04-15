@@ -677,6 +677,142 @@ select {
   height: auto;
 }
 
+.teacher-intro-section__surface {
+  background:
+    radial-gradient(circle at 12% 22%, rgba(111, 161, 222, 0.18), transparent 28%),
+    radial-gradient(circle at 82% 18%, rgba(188, 167, 255, 0.2), transparent 30%),
+    linear-gradient(180deg, rgba(250, 252, 255, 0.92), rgba(243, 247, 255, 0.88));
+  overflow: clip;
+}
+
+.teacher-intro-section__surface .section-shell {
+  align-items: stretch;
+}
+
+.teacher-intro-section__container {
+  width: 100%;
+  display: flex;
+  flex: 1;
+}
+
+.teacher-intro-section__grid {
+  display: grid;
+  width: 100%;
+  gap: clamp(1rem, 2.5vw, 2.25rem);
+  align-items: center;
+}
+
+.teacher-intro-section__visual {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: clamp(22.4rem, 59.2vh, 41.6rem);
+  padding: clamp(1rem, 3vw, 2rem) clamp(1rem, 3vw, 2rem) 0;
+}
+
+.teacher-intro-section__visual-backdrop {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: min(100%, 21rem);
+  height: clamp(2.5rem, 5vw, 3.25rem);
+  border-bottom: 1px solid rgba(54, 93, 150, 0.18);
+  background: transparent;
+  box-shadow: 0 24px 30px -24px rgba(68, 96, 141, 0.42);
+  transform: translateX(-50%);
+}
+
+.teacher-intro-section__visual-glow {
+  position: absolute;
+  bottom: clamp(0.5rem, 2vw, 1rem);
+  left: 50%;
+  width: min(88%, 24rem);
+  height: clamp(4rem, 10vw, 6rem);
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(188, 167, 255, 0.32), rgba(111, 161, 222, 0.08) 66%, transparent 76%);
+  filter: blur(22px);
+  transform: translateX(-50%);
+}
+
+.teacher-intro-section__photo-frame {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 16.8rem);
+  align-self: flex-end;
+  margin-inline: auto;
+}
+
+.teacher-intro-section__photo,
+.teacher-intro-section__photo img {
+  width: 100%;
+  height: auto;
+}
+
+.teacher-intro-section__content {
+  display: flex;
+  align-items: center;
+}
+
+.teacher-intro-section__content-panel {
+  width: 100%;
+  padding: clamp(1.5rem, 2vw, 2rem) 0;
+}
+
+.teacher-intro-section__subject {
+  display: block;
+  margin: 0 0 0.9rem;
+  color: #365d96;
+  font-size: 0.92rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.teacher-intro-section__name {
+  margin: 0;
+  color: #183a6a;
+  font-family: "A2Z", "Pretendard", sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4.75rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 0.96;
+}
+
+.teacher-intro-section__list {
+  display: grid;
+  gap: 0;
+  margin: clamp(1.5rem, 3vw, 2rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.teacher-intro-section__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.9rem;
+  align-items: start;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(54, 93, 150, 0.12);
+  color: #25344b;
+  font-size: clamp(1rem, 1.4vw, 1.1rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.6;
+}
+
+.teacher-intro-section__item--accent {
+  color: #1f2d46;
+  font-weight: 700;
+}
+
+.teacher-intro-section__item-marker {
+  width: 0.7rem;
+  height: 0.7rem;
+  margin-top: 0.52rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #4b79b8, #7b63cb);
+}
+
 @media (min-width: 1025px) {
   .hero-section__surface {
     --hero-visual-top-margin: clamp(1rem, 4vh, 2.75rem);
@@ -720,6 +856,16 @@ select {
     position: absolute;
     top: 0;
   }
+
+  .teacher-intro-section__grid {
+    grid-template-columns: minmax(18rem, 0.82fr) minmax(0, 1fr);
+    max-width: 80%;
+    margin-inline: auto;
+  }
+
+  .teacher-intro-section__visual {
+    justify-content: center;
+  }
 }
 
 @media (max-width: 1024px) {
@@ -731,6 +877,10 @@ select {
 
   .hero-section__visual {
     min-height: clamp(23rem, 48vw, 31rem);
+  }
+
+  .teacher-intro-section__visual {
+    min-height: clamp(19.2rem, 48vw, 27.2rem);
   }
 }
 
@@ -848,6 +998,33 @@ select {
 
   .hero-section__visual {
     min-height: 18rem;
+  }
+
+  .teacher-intro-section__visual {
+    min-height: auto;
+    padding: 0.5rem 0.25rem 0;
+  }
+
+  .teacher-intro-section__visual-backdrop {
+    width: min(100%, 15rem);
+  }
+
+  .teacher-intro-section__photo-frame {
+    width: min(100%, 12.6rem);
+  }
+
+  .teacher-intro-section__content-panel {
+    padding: 0;
+  }
+
+  .teacher-intro-section__name {
+    font-size: clamp(2.2rem, 12vw, 3.25rem);
+  }
+
+  .teacher-intro-section__item {
+    gap: 0.75rem;
+    padding: 0.95rem 0;
+    font-size: 0.98rem;
   }
 }
 

@@ -1,0 +1,82 @@
+---
+import { Picture } from 'astro:assets';
+import type { LandingData, LandingSectionConfig } from '../../types/landing';
+import Container from '../layout/Container.astro';
+import SectionShell from '../layout/SectionShell.astro';
+
+export interface Props {
+  section: LandingSectionConfig;
+  landing: LandingData;
+}
+
+const { section, landing } = Astro.props;
+const teacherIntro = landing.teacherIntro;
+const teacherName = landing.brand?.teacherName?.trim() ?? '담당 강사';
+const displayName = /(선생님|강사)$/.test(teacherName) ? teacherName : `${teacherName} 선생님`;
+const subject = landing.brand?.subject?.trim();
+const detailLines =
+  teacherIntro?.items?.filter(Boolean) ??
+  teacherIntro?.body
+    ?.split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean) ??
+  [];
+const teacherImage = teacherIntro?.image ?? landing.hero?.image;
+const imageAlt = `${displayName} 전신 사진`;
+---
+
+<SectionShell
+  id={section.id}
+  kind={section.kind}
+  class="teacher-intro-section"
+  surfaceClass="teacher-intro-section__surface"
+>
+  <Container class="teacher-intro-section__container">
+    <div class="teacher-intro-section__grid">
+      <div class="teacher-intro-section__visual" aria-hidden={teacherImage ? undefined : 'true'}>
+        <div class="teacher-intro-section__visual-backdrop"></div>
+        <div class="teacher-intro-section__visual-glow"></div>
+        {
+          teacherImage ? (
+            <div class="teacher-intro-section__photo-frame">
+              <Picture
+                src={teacherImage}
+                alt={imageAlt}
+                class="teacher-intro-section__photo"
+                formats={['avif', 'webp']}
+                fallbackFormat="png"
+                layout="constrained"
+                widths={[480, 720, 960, 1280]}
+                sizes="(min-width: 1200px) 32rem, (min-width: 1025px) 42vw, (min-width: 720px) 50vw, 92vw"
+              />
+            </div>
+          ) : null
+        }
+      </div>
+
+      <div class="teacher-intro-section__content">
+        <div class="teacher-intro-section__content-panel">
+          {subject ? <p class="teacher-intro-section__subject">{subject}</p> : null}
+          <h2 class="teacher-intro-section__name">{displayName}</h2>
+          {
+            detailLines.length ? (
+              <ul class="teacher-intro-section__list">
+                {detailLines.map((line) => (
+                  <li
+                    class:list={[
+                      'teacher-intro-section__item',
+                      /\d/.test(line) && 'teacher-intro-section__item--accent'
+                    ]}
+                  >
+                    <span class="teacher-intro-section__item-marker" aria-hidden="true"></span>
+                    <span>{line}</span>
+                  </li>
+                ))}
+              </ul>
+            ) : null
+          }
+        </div>
+      </div>
+    </div>
+  </Container>
+</SectionShell>

@@ -110,7 +110,8 @@ export interface LandingData {
   teacherIntro?: {
     title?: string;
     body?: string;
-    image?: string;
+    items?: string[];
+    image?: ImageMetadata;
   };
   proof?: {
     title?: string;
