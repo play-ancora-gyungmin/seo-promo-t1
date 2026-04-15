@@ -316,10 +316,6 @@
       "type": "scoreProof"
     },
     {
-      "id": "proof",
-      "type": "proof"
-    },
-    {
       "id": "curriculum-1",
       "type": "curriculum"
     },
@@ -334,6 +330,10 @@
     {
       "id": "teachingMaterials",
       "type": "teachingMaterials"
+    },
+    {
+      "id": "proof",
+      "type": "proof"
     },
     {
       "id": "contact",
