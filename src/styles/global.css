@@ -565,7 +565,6 @@ select {
     radial-gradient(circle at 88% 20%, rgba(111, 161, 222, 0.28), transparent 30%),
     linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(239, 245, 255, 0.78));
   align-items: stretch;
-  border-bottom: 1px solid var(--line-color);
   overflow: clip;
 }
 
