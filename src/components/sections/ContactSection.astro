@@ -16,13 +16,42 @@ export interface Props {
 const { section, landing } = Astro.props;
 const contact = landing.contact;
 const title = contact?.title?.trim() || '문의';
-const phone = contact?.phone?.trim();
-const address = contact?.address?.trim();
 const mapConfig = contact?.map;
 const mapPlaceName = mapConfig?.placeName?.trim();
 const mapId = `${section.id}-naver-map`;
-const telHref = phone ? `tel:${phone.replace(/[^\d+]/g, '')}` : undefined;
 const academyLogo = landing.brand?.academyLogo;
+const locations =
+  contact?.locations?.flatMap((location) => {
+    const name = location.name?.trim();
+    const address = location.address?.trim();
+    const phone = location.phone?.trim();
+
+    return name || address || phone
+      ? [
+          {
+            name,
+            address,
+            phone,
+            telHref: phone ? `tel:${phone.replace(/[^\d+]/g, '')}` : undefined
+          }
+        ]
+      : [];
+  }) ?? [];
+
+if (!locations.length) {
+  const address = contact?.address?.trim();
+  const phone = contact?.phone?.trim();
+
+  if (address || phone) {
+    locations.push({
+      name: undefined,
+      address,
+      phone,
+      telHref: phone ? `tel:${phone.replace(/[^\d+]/g, '')}` : undefined
+    });
+  }
+}
+
 const channels =
   contact?.channels?.flatMap((channel) => {
     const kind = channel.kind;
@@ -54,6 +83,8 @@ const iconChannels = channels.filter(
     channel.kind !== 'website'
 );
 const websiteChannels = channels.filter((channel) => channel.kind === 'website');
+const actionCount = Math.max(iconChannels.length, 1);
+const actionGroupStyle = `--contact-action-count:${actionCount};`;
 ---
 
 <SectionShell
@@ -68,17 +99,22 @@ const websiteChannels = channels.filter((channel) => channel.kind === 'website')
         <h2 class="contact-section__title">{title}</h2>
 
         <div class="contact-section__info">
-          {phone && telHref ? (
-            <a class="contact-section__phone" href={telHref}>
-              {phone}
-            </a>
-          ) : null}
-          {address ? <p class="contact-section__address">{address}</p> : null}
+          {locations.map((location) => (
+            <div class="contact-section__location">
+              {location.name ? <p class="contact-section__location-name">{location.name}</p> : null}
+              {location.phone && location.telHref ? (
+                <a class="contact-section__phone" href={location.telHref}>
+                  {location.phone}
+                </a>
+              ) : null}
+              {location.address ? <p class="contact-section__address">{location.address}</p> : null}
+            </div>
+          ))}
         </div>
 
         {
           iconChannels.length ? (
-            <div class="contact-section__links" aria-label="문의 채널">
+            <div class="contact-section__links" aria-label="문의 채널" style={actionGroupStyle}>
               {iconChannels.map((channel) => (
                 <a
                   class="contact-section__icon-link"
@@ -96,13 +132,14 @@ const websiteChannels = channels.filter((channel) => channel.kind === 'website')
 
         {
           websiteChannels.length ? (
-            <div class="contact-section__website-links">
+            <div class="contact-section__website-links" style={actionGroupStyle}>
               {websiteChannels.map((channel) => (
                 <a
                   class="contact-section__text-link"
                   href={channel.href}
                   target="_blank"
                   rel="noreferrer noopener"
+                  aria-label={channel.label}
                 >
                   {academyLogo ? (
                     <img
@@ -114,8 +151,9 @@ const websiteChannels = channels.filter((channel) => channel.kind === 'website')
                       decoding="async"
                       aria-hidden="true"
                     />
-                  ) : null}
-                  {channel.label}
+                  ) : (
+                    channel.label
+                  )}
                 </a>
               ))}
             </div>

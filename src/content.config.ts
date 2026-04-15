@@ -29,6 +29,12 @@ const contactMapSchema = z.object({
   placeName: z.string().optional()
 }).partial();
 
+const contactLocationSchema = z.object({
+  name: z.string(),
+  address: z.string(),
+  phone: z.string()
+}).partial();
+
 const scoreProofStatSchema = z.object({
   value: z.string().optional(),
   label: z.string().optional(),
@@ -144,6 +150,7 @@ const teachers = defineCollection({
         description: z.string(),
         address: z.string(),
         phone: z.string(),
+        locations: z.array(contactLocationSchema).optional(),
         map: contactMapSchema.optional(),
         channels: z.array(contactChannelSchema).optional(),
         fields: z.array(contactFieldSchema).optional()
