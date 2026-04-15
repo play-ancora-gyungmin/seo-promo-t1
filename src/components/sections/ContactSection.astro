@@ -18,6 +18,7 @@ const title = contact?.title?.trim() || '문의';
 const phone = contact?.phone?.trim();
 const address = contact?.address?.trim();
 const telHref = phone ? `tel:${phone.replace(/[^\d+]/g, '')}` : undefined;
+const academyLogo = landing.brand?.academyLogo;
 const channels =
   contact?.channels?.flatMap((channel) => {
     const kind = channel.kind;
@@ -99,6 +100,17 @@ const websiteChannels = channels.filter((channel) => channel.kind === 'website')
                   target="_blank"
                   rel="noreferrer noopener"
                 >
+                  {academyLogo ? (
+                    <img
+                      class="contact-section__text-link-logo"
+                      src={academyLogo.src}
+                      alt=""
+                      width={academyLogo.width}
+                      height={academyLogo.height}
+                      decoding="async"
+                      aria-hidden="true"
+                    />
+                  ) : null}
                   {channel.label}
                 </a>
               ))}

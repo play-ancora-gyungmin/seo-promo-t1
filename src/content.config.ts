@@ -44,7 +44,8 @@ const teachers = defineCollection({
         subject: z.string(),
         brandName: z.string(),
         tagline: z.string(),
-        logo: image().optional()
+        logo: image().optional(),
+        academyLogo: image().optional()
       }).partial().optional(),
       seo: z.object({
         title: z.string(),

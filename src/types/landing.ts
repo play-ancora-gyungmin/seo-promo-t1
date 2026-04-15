@@ -110,6 +110,7 @@ export interface LandingData {
     brandName?: string;
     tagline?: string;
     logo?: ImageMetadata;
+    academyLogo?: ImageMetadata;
   };
   seo?: {
     title?: string;

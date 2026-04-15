@@ -14,6 +14,7 @@ const teacherIntro = landing.teacherIntro;
 const teacherName = landing.brand?.teacherName?.trim() ?? '담당 강사';
 const displayName = /(선생님|강사)$/.test(teacherName) ? teacherName : `${teacherName} 선생님`;
 const subject = landing.brand?.subject?.trim();
+const subjectLogo = landing.brand?.academyLogo;
 const detailLines =
   teacherIntro?.items?.filter(Boolean) ??
   teacherIntro?.body
@@ -56,7 +57,24 @@ const imageAlt = `${displayName} 전신 사진`;
 
       <div class="teacher-intro-section__content">
         <div class="teacher-intro-section__content-panel">
-          {subject ? <p class="teacher-intro-section__subject">{subject}</p> : null}
+          {
+            subject ? (
+              <p class="teacher-intro-section__subject">
+                {subjectLogo ? (
+                  <img
+                    class="teacher-intro-section__subject-logo"
+                    src={subjectLogo.src}
+                    alt=""
+                    width={subjectLogo.width}
+                    height={subjectLogo.height}
+                    decoding="async"
+                    aria-hidden="true"
+                  />
+                ) : null}
+                <span>{subject}</span>
+              </p>
+            ) : null
+          }
           <h2 class="teacher-intro-section__name">{displayName}</h2>
           {
             detailLines.length ? (
