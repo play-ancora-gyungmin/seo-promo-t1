@@ -19,28 +19,38 @@ const sections = getLandingSkeletonSections(
   landing.sectionOrder
 );
 let curriculumIndex = 0;
+const heroSections = sections.filter((section) => section.type === 'hero');
+const nonHeroSections = sections.filter((section) => section.type !== 'hero');
 ---
 
 {
-  sections.map((section) => (
-    section.type === 'hero' ? (
-      <HeroSection section={section} landing={landing} />
-    ) : section.type === 'scoreProof' ? (
-      <ScoreProofSection section={section} landing={landing} />
-    ) : section.type === 'proof' ? (
-      <ProofSection section={section} landing={landing} />
-    ) : section.type === 'teacherIntro' ? (
-      <TeacherIntroSection section={section} landing={landing} />
-    ) : section.type === 'curriculum' ? (
-      <CurriculumSection
-        section={section}
-        landing={landing}
-        curriculumIndex={curriculumIndex++}
-      />
-    ) : (
-      <SectionShell id={section.id} kind={section.kind}>
-        <span class="landing-placeholder-label">{section.label}</span>
-      </SectionShell>
-    )
+  heroSections.map((section) => (
+    <HeroSection section={section} landing={landing} />
   ))
+}
+
+{
+  nonHeroSections.length ? (
+    <div class="landing-deck__continuum">
+      {nonHeroSections.map((section) => (
+        section.type === 'scoreProof' ? (
+          <ScoreProofSection section={section} landing={landing} />
+        ) : section.type === 'proof' ? (
+          <ProofSection section={section} landing={landing} />
+        ) : section.type === 'teacherIntro' ? (
+          <TeacherIntroSection section={section} landing={landing} />
+        ) : section.type === 'curriculum' ? (
+          <CurriculumSection
+            section={section}
+            landing={landing}
+            curriculumIndex={curriculumIndex++}
+          />
+        ) : (
+          <SectionShell id={section.id} kind={section.kind}>
+            <span class="landing-placeholder-label">{section.label}</span>
+          </SectionShell>
+        )
+      ))}
+    </div>
+  ) : null
 }

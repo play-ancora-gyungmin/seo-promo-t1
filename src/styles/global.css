@@ -83,6 +83,23 @@ select {
   gap: 0;
 }
 
+.landing-deck__continuum {
+  background:
+    radial-gradient(circle at 16% 3%, rgba(196, 220, 255, 0.34), transparent 18%),
+    radial-gradient(circle at 84% 8%, rgba(214, 201, 255, 0.28), transparent 16%),
+    linear-gradient(180deg, rgba(248, 251, 255, 0.96), rgba(240, 245, 255, 0.92));
+}
+
+.landing-deck__continuum > .landing-section > .landing-section__surface {
+  border-top: 0;
+  border-bottom: 0;
+  background: transparent;
+}
+
+.landing-deck__continuum > .landing-section + .landing-section {
+  border-top: 1px solid var(--line-color);
+}
+
 .container {
   width: var(--container-width);
   margin: 0 auto;
@@ -678,10 +695,6 @@ select {
 }
 
 .teacher-intro-section__surface {
-  background:
-    radial-gradient(circle at 12% 22%, rgba(111, 161, 222, 0.18), transparent 28%),
-    radial-gradient(circle at 82% 18%, rgba(188, 167, 255, 0.2), transparent 30%),
-    linear-gradient(180deg, rgba(250, 252, 255, 0.92), rgba(243, 247, 255, 0.88));
   overflow: clip;
 }
 
@@ -957,14 +970,6 @@ select {
   white-space: pre-line;
 }
 
-.score-proof-section__surface {
-  background:
-    radial-gradient(circle at 14% 20%, rgba(196, 220, 255, 0.42), transparent 28%),
-    radial-gradient(circle at 86% 18%, rgba(212, 198, 255, 0.34), transparent 24%),
-    linear-gradient(180deg, rgba(251, 253, 255, 0.96), rgba(242, 247, 255, 0.92));
-  border-top: 1px solid rgba(54, 93, 150, 0.1);
-}
-
 .score-proof-section__surface .section-shell {
   padding-block: clamp(3rem, 6vw, 5rem);
 }
@@ -1138,15 +1143,6 @@ select {
   margin-top: 0.5rem;
   border-radius: 999px;
   background: #6d88b6;
-}
-
-.proof-section__surface {
-  background:
-    radial-gradient(circle at 18% 22%, rgba(201, 220, 255, 0.42), transparent 30%),
-    radial-gradient(circle at 84% 18%, rgba(227, 213, 255, 0.42), transparent 24%),
-    linear-gradient(180deg, rgba(246, 250, 255, 0.96), rgba(238, 244, 255, 0.9));
-  border-top: 1px solid var(--line-color);
-  border-bottom: 1px solid var(--line-color);
 }
 
 .proof-section__surface .section-shell {
@@ -1368,9 +1364,7 @@ select {
 
 @media (max-width: 719px) {
   .site-shell {
-    padding-bottom: calc(
-      var(--header-height) + env(safe-area-inset-bottom) + 0.5rem
-    );
+    padding-bottom: 0;
   }
 
   .landing-main {
@@ -1423,6 +1417,25 @@ select {
     align-items: flex-start;
     flex-direction: column;
     justify-content: center;
+  }
+
+  .site-footer {
+    padding-bottom: calc(
+      var(--header-height) + env(safe-area-inset-bottom) + 0.75rem
+    );
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.8),
+        rgba(241, 246, 255, 0.96)
+      );
+  }
+
+  .site-footer__inner {
+    min-height: 8.5rem;
+    padding-top: 1.25rem;
+    padding-bottom: 0;
+    gap: 0.5rem;
   }
 
   .landing-section--slide {
