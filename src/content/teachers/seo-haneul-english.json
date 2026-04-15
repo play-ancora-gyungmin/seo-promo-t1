@@ -102,15 +102,17 @@
   "enabledSections": [
     "hero",
     "teacherIntro",
-    "curriculum",
     "proof",
+    "curriculum",
+    "teachingMaterials",
     "contact"
   ],
   "sectionOrder": [
     "hero",
     "teacherIntro",
-    "curriculum",
     "proof",
+    "curriculum",
+    "teachingMaterials",
     "contact"
   ]
 }

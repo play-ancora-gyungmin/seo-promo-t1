@@ -25,7 +25,7 @@ const sectionLabels: Record<LandingSectionId, string> = {
   scoreProof: '성적 증빙',
   schedule: '일정',
   location: '위치',
-  teachingMaterials: '교재',
+  teachingMaterials: '자체 교재',
   floatingCta: '플로팅 CTA'
 };
 
