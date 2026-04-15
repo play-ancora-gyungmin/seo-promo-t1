@@ -998,7 +998,7 @@ select {
 
 .curriculum-section__inner--timeline {
   gap: clamp(1.5rem, 3vw, 3rem);
-  max-width: 72rem;
+  max-width: 84rem;
 }
 
 .curriculum-section__heading {
