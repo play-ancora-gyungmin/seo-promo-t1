@@ -11,6 +11,11 @@ export interface Props {
 
 const { section, landing } = Astro.props;
 const title = landing.proof?.title?.trim() || '영어 성적 상승, 학생들의 후기로 증명합니다.';
+const titleCommaIndex = title.indexOf(',');
+const titleLines =
+  titleCommaIndex >= 0
+    ? [title.slice(0, titleCommaIndex + 1), title.slice(titleCommaIndex + 1).trimStart()].filter(Boolean)
+    : [title];
 const reviews =
   landing.proof?.reviews?.flatMap((review, index) =>
     review.image
@@ -40,7 +45,11 @@ const reviewRows = [0, 1]
 >
   <Container class="proof-section__container">
     <div class="proof-section__heading">
-      <h2 class="proof-section__headline">{title}</h2>
+      <h2 class="proof-section__headline">
+        {titleLines.map((line) => (
+          <span class="proof-section__headline-line">{line}</span>
+        ))}
+      </h2>
     </div>
 
     {
