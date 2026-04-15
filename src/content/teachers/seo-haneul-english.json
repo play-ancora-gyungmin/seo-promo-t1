@@ -92,22 +92,16 @@
   },
   "enabledSections": [
     "hero",
-    "trustBar",
-    "fitStudents",
-    "curriculum",
     "teacherIntro",
+    "curriculum",
     "proof",
-    "faq",
     "contact"
   ],
   "sectionOrder": [
     "hero",
-    "trustBar",
-    "fitStudents",
-    "curriculum",
     "teacherIntro",
+    "curriculum",
     "proof",
-    "faq",
     "contact"
   ]
 }
