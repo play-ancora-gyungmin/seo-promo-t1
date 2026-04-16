@@ -81,7 +81,7 @@
 :root {
   color-scheme: light;
   font-family: "Pretendard", system-ui, sans-serif;
-  --page-bg: #f5faff;
+  --page-bg: #fcfcfa;
   --panel-bg: rgba(255, 255, 255, 0.82);
   --line-color: rgba(54, 93, 150, 0.18);
   --text-color: #1d2433;
@@ -164,10 +164,7 @@ select {
 }
 
 .landing-deck__continuum {
-  background:
-    radial-gradient(circle at 16% 3%, rgba(196, 220, 255, 0.34), transparent 18%),
-    radial-gradient(circle at 84% 8%, rgba(214, 201, 255, 0.28), transparent 16%),
-    linear-gradient(180deg, rgba(248, 251, 255, 0.96), rgba(240, 245, 255, 0.92));
+  background: #fbfcfb;
 }
 
 .landing-deck__continuum > .landing-section > .landing-section__surface {
