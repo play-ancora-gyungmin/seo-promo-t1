@@ -1733,6 +1733,15 @@ select {
     );
   }
 
+  .hero-section.landing-section--slide,
+  .hero-section__surface,
+  .hero-section__surface .section-shell {
+    min-height: 100vh;
+    min-height: 100svh;
+    min-height: 100dvh;
+    height: auto;
+  }
+
   .hero-section__headline {
     font-size: clamp(2.3rem, 12.2vw, 3.7rem);
   }
@@ -1773,25 +1782,54 @@ select {
     width: 100%;
   }
 
+  .hero-section__grid {
+    align-items: stretch;
+    column-gap: 0;
+    row-gap: 1rem;
+    grid-template-rows: auto auto;
+    min-height: 0;
+  }
+
   .hero-section__surface .section-shell {
     --hero-visual-bottom-shift: max(
       1.5rem,
       calc(var(--header-height) + env(safe-area-inset-bottom) + 0.875rem)
     );
-    --hero-visible-ratio: 0.74;
-    --hero-portrait-scale: 1.42;
-    --hero-portrait-frame-width: clamp(14.25rem, 72vw, 17.25rem);
+    --hero-visible-ratio: 0.6;
+    --hero-portrait-frame-scale: 1;
+    --hero-portrait-frame-width: 30vh;
+    --hero-portrait-frame-width: 30svh;
+    --hero-portrait-frame-width: 30dvh;
+    align-items: center;
     padding-bottom: var(--hero-visual-bottom-shift);
   }
 
+  .hero-section__container {
+    flex: 0 0 auto;
+  }
+
+  .hero-section__content {
+    order: 2;
+    align-self: start;
+    align-content: start;
+  }
+
   .hero-section__visual {
+    order: 1;
     align-items: flex-start;
-    min-height: 16.75rem;
-    padding-top: 0.35rem;
+    min-height: auto;
+    margin-bottom: 0;
+    padding-top: 0;
   }
 
   .hero-section__visual-frame {
+    border-bottom: 1px solid rgba(36, 70, 119, 0.16);
+    box-shadow: 0 14px 20px -18px rgba(24, 58, 106, 0.34);
     margin-top: 0;
+  }
+
+  .hero-section__portrait {
+    top: -0.35rem;
   }
 
   .teacher-intro-section__visual {
